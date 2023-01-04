@@ -6,3 +6,4 @@ add_executable(xtracter main.cpp)
 
 target_link_libraries(xtracter uforia)
 
+file(COPY ${CMAKE_SOURCE_DIR}/english.dic DESTINATION ${CMAKE_BINARY_DIR})

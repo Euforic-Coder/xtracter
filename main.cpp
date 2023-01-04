@@ -22,59 +22,63 @@ bool flag_file, flag_write;
 void set_dictionary(string language){
     // TODO: Add languages
     if(language == "english"){
-        dictionary = from("english.dic", false);
+        dictionary = from("english.dic", true);
         LOG("Dictionary is set to English");
     }else if(language == "spanish"){
-        dictionary == from("spanish.dic", false);
+        dictionary = from("spanish.dic", false);
     }else{
         error("Wrong language is given", true);
     }
 }
 
 void extract(string password){
-    for(int i = 0; i < dictionary.size(); ++i){
+    for(unsigned short int i = 0; i < dictionary.size(); ++i){
         string word = dictionary[i];
         if(has(word, password) && word.length() < password.length()){
             collection.push_back(word);
-            LOG(word + " added to collection");
+            LOG(word);
             password.erase(password.find(word), word.length());
             LOG(password);
+            extract(password);
         }
     }
-    extract(password);
 }
 
 int main(int argc, char* argv[])
 {
+    // Getopt
     int c;
 
     while ((c = getopt (argc, argv, "f:l:o:")) != -1)
         switch (c)
-          {
-          case 'f':
+        {
+        case 'f':
             file.open(optarg);
             flag_file = true;
+            LOG(optarg);
             break;
-          case 'l':
+        case 'l':
             language = optarg;
+            LOG(optarg);
             break;
-          case 'o':
+        case 'o':
             write.open(optarg);
             flag_write = true;
+            LOG(optarg);
             break;
-          case '?':
-            if (optopt == 'c')
-              fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-            else if (isprint (optopt))
-              fprintf (stderr, "Unknown option `-%c'.\n", optopt);
-            else
-              fprintf (stderr,
-                       "Unknown option character `\\x%x'.\n",
-                       optopt);
-            return 1;
-          default:
+        default:
             abort ();
-          }
+        }
+
+    // Assert if the dictionary is open
+    if(dictionary.empty()){
+        error("Failed to open the dictionary", true);
+    }
+
+    string password;
+    while(file >> password){
+        extract(password);
+    }
 
     return 0;
 }

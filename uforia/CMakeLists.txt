@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (uforia)
 
-add_executable(test main.cpp)
-
 add_library(colored colored.h)
 add_library(from from.h)
 add_library(has has.h)
@@ -14,4 +12,3 @@ foreach(target IN ITEMS colored from has messages random uforia)
 	set_target_properties(${target} PROPERTIES LINKER_LANGUAGE CXX)
 endforeach()
 
-target_link_libraries(test uforia)

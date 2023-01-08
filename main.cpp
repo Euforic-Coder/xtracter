@@ -3,7 +3,7 @@
 #include <fstream>
 #include "uforia/uforia.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #define LOG(x) cout << "Debug: " << x << endl
 #define COMPARE(x, y) cout << colored(x, Red, Italic) << " " << colored(y, Blue, Italic) << endl

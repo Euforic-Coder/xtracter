@@ -9,6 +9,7 @@
 #define COMPARE(x, y) cout << colored(x, Red, Italic) << " " << colored(y, Blue, Italic) << endl
 #else
 #define LOG(x)
+#define COMPARE(x, y)
 #endif
 
 using namespace std;

@@ -5,13 +5,6 @@
 #include <chrono>
 #include "uforia/uforia.h"
 
-#define DEBUG 1
-#if DEBUG
-#define LOG(x) cout << colored(x, Yellow, Bold) << endl
-#else
-#define LOG(x)
-#endif
-
 using namespace std;
 
 int maximal_chars = 12, minimal_chars = 6;
@@ -19,7 +12,7 @@ ifstream file;
 ofstream write;
 ofstream unextracted;
 string buffer;
-vector<string> dictionary = from("english.dic", true);
+vector<string> dictionary = from("/etc/xtracter/english.dic", true);
 vector<string> collection;
 bool flag_file = false, flag_write = false, flag_unextracted = false, flag_verbose = true;
 
@@ -35,7 +28,7 @@ void extract(string password){
 
             collection.push_back(word);
 
-            // Print words in 6 columns
+            // Print words in 7 columns
             if(flag_verbose){
                 if(index == 6){
                     cout << colored(word, Green, Bold) << endl;
@@ -182,10 +175,6 @@ int main(int argc, char* argv[])
 
     string password;
 
-#if DEBUG
-    auto start = std::chrono::high_resolution_clock::now();
-#endif
-
     // Extract words
     while(file >> password){
         extract(lowercase(password));
@@ -199,11 +188,5 @@ int main(int argc, char* argv[])
     // Count words
     count();
 
-#if DEBUG
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = finish - start;
-    string message = "Elapsed Time: " + to_string(elapsed.count()) + " seconds";
-    cout << colored(message, Magenta, Bold) << endl;
-#endif
     return 0;
 }

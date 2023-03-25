@@ -139,13 +139,11 @@ int main(int argc, char* argv[])
         case 'f':{
             file.open(optarg);
             flag_file = true;
-            LOG(optarg);
         }
             break;
         case 'o':
             write.open(optarg);
             flag_write = true;
-            LOG(optarg);
             break;
         case 'm':
             minimal_chars = stoi(optarg);

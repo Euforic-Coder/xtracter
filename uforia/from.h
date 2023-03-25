@@ -7,7 +7,7 @@
 
 std::string from(std::vector<std::string> vec, char seperator = ' '){
     std::string buffer;
-    for(unsigned short int i = 0; i < vec.size(); ++i){
+    for(int i = 0; i < vec.size(); ++i){
         buffer = buffer + seperator + vec[i];
     }
     return buffer;
@@ -15,19 +15,19 @@ std::string from(std::vector<std::string> vec, char seperator = ' '){
 
 std::vector<std::string> from(std::string s, char delimiter){
     std::vector<std::string> buffer;
-    int pos = 0, len;
-    for(unsigned short int i = 0; i < s.length(); ++i){
-        if(s[i] != delimiter){
-            len++;
-        }else{
-            buffer.push_back(s.substr(pos + 1, len));
+    int pos = 0, len = 0;
+    for(int i = 0; i < s.length(); ++i){
+        char c = s[i];
+        if(c == delimiter){
+            buffer.push_back(s.substr(pos, len));
             len = 0;
-            pos = i;
+            pos = i + 1;
+        }else if (i == s.length() - 1){
+            int end = s.length() - pos;
+            buffer.push_back(s.substr(pos, end));
+        } else {
+            len++;
         }
-    }
-
-    if(s[s.length()] != delimiter){
-        buffer.push_back(s.substr(pos + 1, len));
     }
     return buffer;
 }

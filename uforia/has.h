@@ -1,7 +1,7 @@
 #ifndef HAS_H
 #define HAS_H
 
-bool has(std::string s, std::string other){
+bool has(const std::string& s, const std::string& other){
     if(s.length() < other.length()){
         for(unsigned short int i = 0; i < (other.length() - s.length()); ++i){
             std::string substr = other.substr(i, s.length());
@@ -9,6 +9,8 @@ bool has(std::string s, std::string other){
                 return true;
             }
         }
+    }else if(s == other){
+        return true;
     }
     return false;
 }

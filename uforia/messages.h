@@ -12,11 +12,19 @@ void bulletin(std::string s, bool b = true){
     }
 }
 
-void error(std::string s, bool exit){
+void error(std::string s, bool exit = true){
     std::cout << "\033[31m" << s << "\033[m" << std::endl;
     if(exit){
-        std::abort();
+        std::exit(0);
     }
+}
+
+void line(char c = '-'){
+    int columns = std::stoi(getenv("COLUMNS"));
+    for(int i = 0; i < columns; ++i){
+        std::cout << c;
+    }
+    std::cout << std::endl;
 }
 
 #endif // MESSAGES_H

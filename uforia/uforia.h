@@ -7,6 +7,6 @@
 #include "colored.h"
 #include "random.h"
 #include "strings.h"
-#include "helpmaker.h"
+#include "helpmenu.h"
 
 #endif // UFORIA_H

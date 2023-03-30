@@ -2,6 +2,7 @@
 #include "uforia.h"
 
 using namespace std;
+using namespace uforia;
 
 int main()
 {
@@ -33,7 +34,25 @@ int main()
     // has(string, vector<string>)
     bulletin("Check has(string, vector<string>)", has("Apple", vec_s));
 
-    
+    vector<string> test = from("list.txt", true);
+    vector<string> buffer;
 
+    bulletin("Normal list");
+    for(auto a : test){
+	    cout << a << endl;
+    }
+
+    bulletin("Counted list");
+    buffer = uforia::count(test);
+    for(auto a : buffer){
+    	cout << a << endl;
+    }
+
+    bulletin("Unique list");
+    buffer = uforia::unique(test);
+    for(auto a : buffer){
+	cout << a << endl;
+    }
+    
     return 0;
 }

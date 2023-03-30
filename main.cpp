@@ -6,6 +6,7 @@
 #include "uforia/uforia.h"
 
 using namespace std;
+using namespace uforia;
 
 int maximal_chars = 12, minimal_chars = 6;
 ifstream file;
@@ -14,6 +15,7 @@ ofstream unextracted;
 string buffer;
 vector<string> dictionary = from("/etc/xtracter/english.dic", true);
 vector<string> collection;
+vector<string> temporary;
 bool flag_file = false, flag_write = false, flag_unextracted = false, flag_verbose = true;
 
 // Extract words from the password
@@ -39,13 +41,8 @@ void extract(string password){
                 }
             }
 
-            // Write words to file
-            if(flag_write){
-                write << word << endl;
-            }
-
             // The found word is removed from the password and reused
-            password.erase(password.find(word), word.length());
+	    password.erase(password.find(word), word.length());
             extract(password);
         }else if(flag_unextracted){
             unextract = password;
@@ -54,59 +51,6 @@ void extract(string password){
     if(flag_unextracted && !unextract.empty()){
         unextracted << password << endl;
 
-    }
-}
-
-struct Extract{
-    Extract(string s){
-        this->word = s;
-    }
-    string word;
-    int count = 1;
-};
-
-vector<Extract> extracted;
-void count(){
-    for(unsigned short i = 0; i < collection.size(); i++){
-        const string collect = collection[i];
-
-        // Add the first extract
-        if(extracted.empty()){
-            Extract extract(collect);
-            extracted.push_back(extract);
-            continue;
-        }
-
-        // Check if te collected word is present in extracted
-        for(unsigned short j = 0; j < extracted.size(); ++j){
-            const Extract extract = extracted[j];
-            if(extract.word == collect){
-                int c = extract.count;
-                Extract e(collect);
-                e.count = c + 1;
-                extracted.erase(extracted.begin() + j);
-                extracted.emplace_back(e);
-            }
-        }
-
-        // Add an Extract to extracted
-        Extract e(collect);
-        extracted.push_back(e);
-    }
-
-    // Sort extracted by frequence
-    sort(extracted.begin(), extracted.end(), [](Extract a, Extract b){
-        return a.count > b.count;
-    });
-
-    // Write results
-    cout << endl << endl;
-    if(flag_write){
-        for(unsigned short k = 0; k < extracted.size(); k++){
-            Extract extract = extracted[k];
-            write << extract.word << endl;
-        }
-        write.close();
     }
 }
 
@@ -142,7 +86,7 @@ int main(int argc, char* argv[])
         }
             break;
         case 'o':
-            write.open(optarg);
+            write.open(optarg, ios_base::trunc);
             flag_write = true;
             break;
         case 'm':
@@ -183,8 +127,22 @@ int main(int argc, char* argv[])
         unextracted.close();
     }
 
-    // Count words
-    count();
+    // Count and make unique
+    temporary = uforia::count(collection);
+    collection = uforia::unique(temporary);
 
+    // Write to file and print
+    for(int i = 0; i < collection.size(); ++i){
+    	string collected = collection[i];
+	if(flag_write){
+		write << collected << endl;
+	}
+	cout << collected << endl;
+    }
+    
+    if(flag_write){
+    	write.close();
+    }
+    
     return 0;
 }

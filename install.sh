@@ -1,14 +1,6 @@
 #!/bin/bash
 
-if command -v cmake
-then
-	cmake CMakeLists.txt
-fi
-
-if command -v make
-then
-	sudo make install
-fi
-
-sudo mkdir -p /etc/xtracter
-sudo cp english.dic /etc/xtracter
+sudo cmake CMakeLists.txt
+sudo make install
+sudo mkdir -p etc/xtracter
+cp english.dic /etc/xtracter

@@ -13,7 +13,7 @@ ifstream file;
 ofstream write;
 ofstream unextracted;
 string buffer;
-vector<string> dictionary = from("english.dic", true);
+vector<string> dictionary = from("/etc/xtracter/english.dic", true);
 vector<string> collection;
 vector<string> temporary;
 bool flag_file = false, flag_write = false, flag_unextracted = false, flag_verbose = true;

@@ -92,7 +92,6 @@ int main(int argc, char* argv[])
       help();
     }
 
-  // Getopt
   int c;
 
   while ((c = getopt (argc, argv, "f:o:m:M:u:vl:h")) != -1)
@@ -135,6 +134,11 @@ int main(int argc, char* argv[])
       default:
         abort();
       }
+
+  // Checks if a file is given
+  if(!flag_file){
+      error("No file given (-f)", true);
+  }
 
   // Assert if the dictionary is open
   if(dictionary.empty()){
